@@ -6,7 +6,7 @@ var prodConfig = {
      new webpack.optimize.OccurenceOrderPlugin(),
      new webpack.DefinePlugin({
        'process.env': {
-         'NODE_ENV': process.env.NODE_ENV
+         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
        }
      }),
      new webpack.optimize.UglifyJsPlugin({
