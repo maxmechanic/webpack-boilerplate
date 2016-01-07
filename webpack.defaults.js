@@ -1,6 +1,5 @@
 var path = require('path')
 var autoprefixer = require('autoprefixer')
-var cssnext = require('cssnext')
 
 module.exports = {
   entry: [
@@ -14,9 +13,15 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel-loader', include: path.join(__dirname, 'src') },
-      { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader' },
+      { test: /\.css$/, loader: 'style-loader!css-loader?modules!postcss-loader' },
       { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
     ]
   },
-  postcss: [cssnext, autoprefixer]
+  postcss: (webpack) => [
+    require('postcss-import')({ addDependencyTo: webpack }),
+    require('postcss-url')(),
+    require('postcss-cssnext')(),
+    require('postcss-browser-reporter')(),
+    require('postcss-reporter')(),
+  ]
 }
