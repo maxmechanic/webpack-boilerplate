@@ -22,7 +22,17 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader?modules', 'postcss-loader'],
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                camelCase: true,
+                minimize: process.env.NODE_ENV === 'production',
+              },
+            },
+            'postcss-loader',
+          ],
         }),
       },
       { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
