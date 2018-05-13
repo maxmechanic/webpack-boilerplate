@@ -1,11 +1,13 @@
-var path = require('path')
-var autoprefixer = require('autoprefixer')
+const path = require('path')
+const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: ['./src/client/index'],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     publicPath: '/',
   },
   module: {
@@ -17,9 +19,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules!postcss-loader',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader?modules', 'postcss-loader'],
+        }),
       },
       { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
     ],
   },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: process.env.NODE_ENV !== 'production',
+    }),
+    new HtmlWebpackPlugin({ template: './index_template.html', hash: true }),
+  ],
 }

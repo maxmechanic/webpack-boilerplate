@@ -1,7 +1,9 @@
-var webpack = require('webpack')
-var defaults = require('./webpack.defaults')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
 
-var prodConfig = {
+const defaults = require('./webpack.defaults')
+
+const prodConfig = merge(defaults, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -9,6 +11,6 @@ var prodConfig = {
       },
     }),
   ],
-}
+})
 
-module.exports = Object.assign({}, defaults, prodConfig)
+module.exports = prodConfig
