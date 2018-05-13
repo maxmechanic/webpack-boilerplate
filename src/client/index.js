@@ -1,5 +1,3 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-}
+import style from './index.css'
 
 console.log('hi')
